@@ -1,4 +1,4 @@
-import { estilos } from "../style/estilos"
+import { estilos } from "../style/Estilos"
 import Aula05_exercios from "./aula05_exercicio"
 
 const Aula05 = () => {

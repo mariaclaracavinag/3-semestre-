@@ -1,6 +1,6 @@
 //importanto um css comum 
 import '../style/Aula03.css'
-import { estilos } from '../style/estilos'
+import { estilos } from '../style/Estilos'
 import Aula03_login from './aula03_login'
 
 

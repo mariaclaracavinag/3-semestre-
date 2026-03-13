@@ -1,4 +1,4 @@
-import{estilos} from "../style/estilos"
+import{estilos} from "../style/Estilos"
 import Aula04_IMC from "./aula04_IMC"
 import Aula04_filmes from "./Aula04_Filmes"
 

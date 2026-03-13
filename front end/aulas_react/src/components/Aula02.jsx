@@ -1,4 +1,4 @@
-import{estilos} from "../style/estilos"
+import{estilos} from "../style/Estilos"
 
 const Aula02 = () => {
     return (

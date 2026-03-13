@@ -8,12 +8,12 @@ let listajogadores = [
 
 ]
 
-const jogadorController = {
+const Jogadorcontroller = {
     listar: (req, res) => {
-        res.render('jogadors.ejs', { jogadores: listajogadores })
+        res.render('jogadores.ejs', { jogadores: listajogadores })
     },
     adicionar: (req, res) => {
-        const { nome,nivel,pontuação} = req.body;
+        const { nome,nivel,pontuacao} = req.body;
 
         try {
             //construindo um novo objeto atraves da classe jogador
@@ -21,14 +21,21 @@ const jogadorController = {
                 listajogadores.length + 1,
                 nome,
                 nivel,
-                Number(pontuação)
+                Number(pontuacao)
             );
             listajogadores.push(novojogador)
             res.redirect('/jogadores')
         } catch (e) {
             res.status(400).render('jogadores.ejs', { lista: listajogadores, erro: e.message })
         }
+    },
+        adicionarPontos: (req,res) => {
+        const {id} = req.body;
+        const jogador = listajogadores.find(l => l.id == Number(id))
+        jogador.adicionarPontos();
+        res.redirect('/jogadores');
     }
-}
+    }
 
-export default jogadorcontroller
+
+export default Jogadorcontroller

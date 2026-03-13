@@ -145,7 +145,7 @@
 <body>
     <div class="wrap">
         <div class="card">
-            <h1>Lista de jogadores/h1>
+            <h1>Lista de jogadores 🎯🏸🏀🎮
             <!-- Listando livros -->
             <% jogadores.forEach(l=> { %>
                 <div class="item">
@@ -157,10 +157,17 @@
                             <%= l.verificarPontuação() %>
                         </small>
                                 <div class="muted">
-                                    <%= l.pontuação %> pontuação
+                                    <%= l.pontuacao %> pontuacao
                                 </div>
                     </div>
-              
+               <div class="actions">
+                    <form action="/jogadores/adicionar-ponto" method="post" style="display: inline;">
+                        <input type="hidden" name="id" value="<%= l.id %>" />
+                        <button class="warning" <%= l.lido ? 'disabled' : '' %>>
+                         +50
+                        </button>
+                    </form>
+                </div>
                   </div>
                   <% }) %>
         </div>
@@ -168,11 +175,11 @@
     
             
 
-      <h2 style="text-align:center; margin: 8px 0 12px;">Adicionar Livro</h2>
-      <form action="/livros" method="POST" class="row">
-        <input type="text" name="titulo" placeholder="Título" required />
-        <input type="text" name="autor" placeholder="Autor" required />
-        <input type="number" name="paginas" placeholder="Páginas" min="1" required />
+      <h2 style="text-align:center; margin: 8px 0 12px;">Adicionar jodador</h2>
+      <form action="/jogadores" method="POST" class="row">
+        <input type="text" name="nome" placeholder="nome" required />
+        <input type="text" name="nivel" placeholder="nivel" required />
+        <input type="number" name="pontuacao" placeholder="pontuação" min="1" required />
         <button type="submit">Adicionar</button>
       </form>
         </div>
