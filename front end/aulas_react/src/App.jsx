@@ -11,6 +11,10 @@ function App (){
         <Route path="/" element={<Principal/>}/>
         <Route path="/sobre" element={<Sobre/>}/>
         <Route path="/perfil/:nome" element={<Perfil/>}/>
+        <Route path="/filmes/:filme" element={<Filme/>}/>
+        <Route path="/contato" element={<Contato/>}/>
+        <Route path="/inicio" element={<Inicio/>}/>
+        <Route path="/detalhes" element={<Detalhes/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
       </BrowserRouter>
