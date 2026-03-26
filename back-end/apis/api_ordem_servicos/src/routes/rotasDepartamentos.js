@@ -61,4 +61,63 @@ router.put ('/deparmentos/:id_departamento', async(req,res) => {
         return res.status(500).json({eeror: `Erro ao atualizar departamentos`})
     }
 })
+//rota patch atulizando parcialmente as informaçoes 
+router.patch('/departamentos/id:departamento',async(req,res)  => {
+    const {id_departamento} = req.params;
+    const {nome,descricao} = req.body;
+
+    try{
+        //verificar se o usuario existe
+        const verificarDepartamento= await BD.query (`SELECT * FROM DEPARTAMENTOS 
+            WHERE id_Departamento = $1`, [id_Departamento])
+        if(verificarDepartamento.rows.length === 0 ){
+            return res.status(404).json({message: 'Departamento não encontrado'})
+        }
+
+
+     //montar o update dinamicmente (apenas campos diferentes)
+     const campos =[];
+     const valores =[]; 
+     let contador = 1; 
+
+    if(nome!== undefined){
+        campos.push(`nome = $${contador}`)
+        valores.push(nome)
+        contador++;
+    }
+    if(descricao!== undefined){
+        campos.push(`descricao = $${contador}`)
+        valores.push(descricao)
+        contador++;
+    }
+    //se nenhum campo fou enviado
+    if(campos.length ===0 ){
+        return res.status(400).json({message: "nenhum campo a atualizar"})
+    }
+
+    //adicionando ID ao final de valores 
+    const comando = `UPDATE departamentos SET ${campos.join(',')} WHERE ID departamento = $${contador}`
+    await BD.query (comando,valores)
+    
+    return res.status(200).json ('departamento atuzalizado com sucesso')
+    }catch(error){
+        console.error('Erro ao atualizar departamento', error.menssage)
+        return res.status(500).json({message: "erro interno do servidor"+ error.menssage})
+
+    }
+})
+router.delete('/departamentos/id:departamento', async (req,res) => {
+    const {id_departamento} = req.params;
+  try{
+    //exuta o comando de delete
+    const comando = `DELETE FROM departamentos WHERE id_departamento = $1`
+    await BD.query(comando, [id_departamento])
+    return res.status(200).json({message: "departamento removido com sucesso"})
+  }catch(error){
+        console.error('Erro ao atualizar departamento', error.menssage)
+        return res.status(500).json({message: "erro interno do servidor"+ error.menssage})
+
+    }
+})
+
 export default router

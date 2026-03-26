@@ -58,5 +58,69 @@ router.put ('/ordem_servico/:id_ordem', async(req,res) => {
         return res.status(500).json({eeror: `Erro ao atualizar ordem_servico`})
     }
 })
+//rota patch atulizando parcialmente as informaçoes 
+router.patch('/ordemServico/id:ordem',async(req,res)  => {
+    const {id_ordem} = req.params;
+    const {numero_ordem,titulo,descricao,prioridade,status,data, id_usuario,id_departamento} = req.body;
+
+    try{
+        //verificar se o usuario existe
+        const verificarOrdem= await BD.query (`SELECT * FROM ORDEM_SERVICO 
+            WHERE id_ordem = $1`, [id_ordem])
+        if(verificarOrdem.rows.length === 0 ){
+            return res.status(404).json({message: 'ordem_ serviço não encontrado'})
+        }
+
+
+     //montar o update dinamicmente (apenas campos diferentes)
+     const campos =[];
+     const valores =[]; 
+     let contador = 1; 
+
+    if(numero_ordem!== undefined){
+        campos.push(`numero_ordem = $${contador}`)
+        valores.push(numero_ordem)
+        contador++;
+    }
+    if(titulo!== undefined){
+        campos.push(`titulo = $${contador}`)
+        valores.push(titulo)
+        contador++;
+    }
+    if(descricao!== undefined){
+        campos.push(`descricao = $${contador}`)
+        valores.push(descricao)
+        contador++;
+    }
+    //se nenhum campo fou enviado
+    if(campos.length ===0 ){
+        return res.status(400).json({message: "nenhum campo a atualizar"})
+    }
+
+    //adicionando ID ao final de valores 
+    const comando = `UPDATE Ordem_servico SET ${campos.join(',')} WHERE ID ORDEM = $${contador}`
+    await BD.query (comando,valores)
+    
+    return res.status(200).json ('ordem serviço atuzalizado com sucesso')
+    }catch(error){
+        console.error('Erro ao atualizar ordem serviço', error.menssage)
+        return res.status(500).json({message: "erro interno do servidor"+ error.menssage})
+
+    }
+})
+router.delete('/ordem_servico/:id_ordem', async (req,res) => {
+    const {id_ordem} = req.params;
+  try{
+    //exuta o comando de delete
+    const comando = `DELETE FROM Ordem_servico WHERE id_ordem = $1`
+    await BD.query(comando, [id_ordem])
+    return res.status(200).json({message: "ordem removido com sucesso"})
+  }catch(error){
+        console.error('Erro ao atualizar ordem', error.menssage)
+        return res.status(500).json({message: "erro interno do servidor"+ error.menssage})
+
+    }
+})
+
 
 export default router

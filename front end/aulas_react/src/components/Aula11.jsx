@@ -1,5 +1,5 @@
 import{estilos} from "../style/Estilos"
-import Aula11_cadastroprodutos from "./Aula11_cadastroprodutos"
+import Aula11_cadastroprodutos from "./Aula13_CRUD_Produtos"
 
 const Aula11 = () => {
     return (

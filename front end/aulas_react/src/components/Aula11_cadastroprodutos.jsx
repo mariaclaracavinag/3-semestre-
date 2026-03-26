@@ -29,6 +29,33 @@ const Aula11_cadastroprodutos = () => {
     const [link, setlink] = useState ('')
     const [categoria, setcategoria] = useState ('')
     const [freteGratis, setfreteGratis] = useState (false)
+
+    function botaoAdicionar(){
+        const novoProduto = {
+            nome: nome,
+            preco: preco,
+            link:link,
+            imagem: imagem, 
+            categoria: categoria, 
+            freteGratis: freteGratis
+        }
+        const novaListaProdutos = [...listaProdutos, novoProduto]
+        setListaProdutos(novaListaProdutos)
+        localStorage.setItem('vetorListaProdutos'.JSON.stringify(novaListaProdutos))
+
+        setnome('')
+        setpreco('')
+        setlink('')
+        setimagem('')
+        setcategoria('')
+        setfreteGratis('')
+    }
+    useEffect(() => {
+       const listaSalva= localStorage.getItem('vetorListaProdutos') || "[]";
+        setListaProdutos(JSON.parse(listaSalva))
+    }, [])
+
+
     return (
          <div style={estilos.cardAula}> 
             <h1 style={estilos.titulo} > Cadastro de produtos </h1>
@@ -44,7 +71,7 @@ const Aula11_cadastroprodutos = () => {
                     <option value='comida'> comidas </option>
                 </select>
                 <input type="checkbox" checked={freteGratis} onChange = {(event) => setfreteGratis (event.target.value)} /><label> frete gratis </label>
-                <button style={estilos.botao} type="button"> Adicionar Produto </button>
+                <button onClick={botaoAdicionar} style={estilos.botao} type="button"> Adicionar Produto </button>
                 <hr/> 
                 <div style={{display: 'flex', gap: 10, flexWrap: 'wrap'}}> 
                     {

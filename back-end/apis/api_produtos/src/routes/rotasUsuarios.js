@@ -144,5 +144,40 @@ router.delete('/usuarios/:id_usuario', async (req,res) => {
 
     }
 })
+//endpoint de login
+router.post('/login', async(req,res) => {
+    const {email,senha} = req.body; 
+    //validação de entrda
+    if(!email || !senha){
+        return res.status(400).json ({message: 'email e senha são obrigatorios'})
+    }
+    try{
+        //buscar usuario pelo email
+        const comando = 'SELECT id_usuario,nome,email,senha FROM USUARIOS WHERE email=$1'
+        const resultado= await BD.query(comando,[email])
+
+       if(resultado.rows.length ===0 ){
+       return res.status(401).json({message: 'email nao encontrado'})
+       }
+
+      const usuario = resultado.rows [0]
+
+      //verifica se são iguais
+      if(usuario.senha!== senha){
+        return res.status(401).json({message: 'senha invalida'})
+      }
+     return res.status (200).json({
+      message: 'login realizado com sucesso',
+      usuario: {
+        id: usuario.id_usuario,
+        nome: usuario.nome,
+        email: usuario.email
+      }
+     })
+    } catch(error){
+        console.error('Erro ao atualizar usuario', error.menssage)
+        return res.status(500).json({message: "erro interno do servidor"+ error.menssage})
+    }
+})
 
 export default router

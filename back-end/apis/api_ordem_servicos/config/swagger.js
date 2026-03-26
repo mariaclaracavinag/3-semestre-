@@ -1,297 +1,404 @@
 const documentacao = {
-    openapi: '3.0.3',
-    info: {
-        title: 'API ordem de serviços',
-        description: 'Documentação da API de Ordens de Servico',
-        version: '1.0.0'
-    },
-    servers: [
-        {
-            url: 'http://localhost:3000',
-            description: 'Localhost'
+  openapi: "3.0.3",
+
+  info: {
+    title: "API Ordem de Serviços",
+    description: "Documentação da API de Ordens de Serviço",
+    version: "1.0.0"
+  },
+
+  servers: [
+    {
+      url: "http://localhost:3000",
+      description: "Servidor Local"
+    }
+  ],
+
+  tags: [
+    { name: "Usuários", description: "Operações relacionadas aos usuários" },
+    { name: "Departamentos", description: "Operações relacionadas aos departamentos" },
+    { name: "Ordem de Serviço", description: "Operações relacionadas às ordens de serviço" }
+  ],
+
+  paths: {
+    "/usuarios": {
+      get: {
+        tags: ["Usuários"],
+        summary: "Listar usuários",
+        responses: {
+          200: {
+            description: "Lista de usuários",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: { $ref: "#/components/schemas/lista_Usuarios" }
+                }
+              }
+            }
+          }
         }
-    ],
-    tags: [
-        { name: "usuários", description: "operaçôes relacionadas aos usuários" },
-        { name: "Departamentos", description: "operaçôes relacionadas aos Departamentos" },
-        { name: "Ordem Serviços", description: "operaçôes relacionadas a Ordem de serviços" }
-    ],
-    paths: {
-        "/usuarios": {
-            get: {
-                tags: ["Usuários"],
-                summary: ["listar Usuários"],
-                responses: {
-                    200: {
-                        description: "Dados obtidos com sucesso",
-                        content: {
-                            "apllication/json": {
-                                schema: {
-                                    type: "array",
-                                    items: { $ref: "#/components/schemas/lista_Usuarios" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/usuarios/{id_usuario}": {
-            put: {
-                tags: ["usuários"],
-                summary: "atualizar usuários completo",
-                description: `Atualiza todos os campo de um usuario existente, sendo necessario 
-                enviar todos os campos (nome,email,senha)`,
-                parameters: [
-                    {
-                        name: "id_usuario",
-                        in: "path",
-                        required: true,
-                        description: "ID do usuario a ser atulizado",
-                        schema: { type: "integer" },
-                        example: 1
-                    }
-                ],
-                requestBody: {
-                    required: true,
-                    content: {
-                        "application/json": {
-                            schema: { $ref: "#/components/schemas/Atualizacao_Usuario" }
-                        }
-                    }
-                },
-                responses: {
-                    200: {
-                        description: "Usuario atualizado com sucesso",
-                        content: { "application": { exemple: "usuario atualizado" } }
-                    },
-                    404: {
-                        description: "Usuario não encontrado",
-                        content: {
-                            "application": {
-                                exemple: "usuario não encontrado"
-
-                            },
-                            500: {
-                                description: "Erro no servidor"
-                            }
-                        }
-                    }
-                }}},
-
-        "/departamentos": {
-            get: {
-                tags: ["Departamentos"],
-                summary: ["listar Departamentos"],
-                responses: {
-                    200: {
-                        description: "Dados obtidos com sucesso",
-                        content: {
-                            "apllication/json": {
-                                schema: {
-                                    type: "array",
-                                    items: { $ref: "#/components/schemas/lista_Departamentos" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/departmentos/{id_departamento}": {
-            put: {
-                tags: ["departamentos"],
-                summary: "atualizar departamentos completo",
-                description: `Atualiza todos os campo de um departamento existente, sendo necessario 
-                enviar todos os campos (nome,descricao)`,
-                parameters: [
-                    {
-                        name: "id_departamento",
-                        in: "path",
-                        required: true,
-                        description: "ID do departamento a ser atulizado",
-                        schema: { type: "integer" },
-                        example: 1
-                    }
-                ],
-                requestBody: {
-                    required: true,
-                    content: {
-                        "application/json": {
-                            schema: { $ref: "#/components/schemas/Atualizacao_Departamento" }
-                        }
-                    }
-                },
-                responses: {
-                    200: {
-                        description: "departamento atualizado com sucesso",
-                        content: { "application": { exemple: "departamento atualizado" } }
-                    },
-                    404: {
-                        description: "departamento não encontrado",
-                        content: {
-                            "application": {
-                                exemple: "departamento não encontrado"
-
-                            },
-                            500: {
-                                description: "Erro no servidor"
-                            }
-                        }
-                    }
-                }}},
-        "/ordem_servico": {
-            get: {
-                tags: ["ordem_servico"],
-                summary: ["listar ordem_servico"],
-                responses: {
-                    200: {
-                        description: "Dados obtidos com sucesso",
-                        content: {
-                            "apllication/json": {
-                                schema: {
-                                    type: "array",
-                                    items: { $ref: "#/components/schemas/lista_ordem_servico" }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-        },
-        "/ordem_servico/{id_ordem}": {
-            put: {
-                tags: ["ordem_servico"],
-                summary: "atualizar ordem_servico completo",
-                description: `Atualiza todos os campo de uma ordem existente, sendo necessario 
-                enviar todos os campos (numero_ordem, titulo, descricao,prioridade,status,data,id_usuario,id_departamento)`,
-                parameters: [
-                    {
-                        name: "id_ordem",
-                        in: "path",
-                        required: true,
-                        description: "ID da ordem a ser atulizado",
-                        schema: { type: "integer" },
-                        example: 1
-                    }
-                ],
-                requestBody: {
-                    required: true,
-                    content: {
-                        "application/json": {
-                            schema: { $ref: "#/components/schemas/Atualizacao_ordem" }
-                        }
-                    }
-                },
-                responses: {
-                    200: {
-                        description: "ordem_servico atualizado com sucesso",
-                        content: { "application": { exemple: "ordem_servico atualizado" } }
-                    },
-                    404: {
-                        description: "ordem_servico não encontrado",
-                        content: {
-                            "application": {
-                                exemple: "ordem_servico não encontrado"
-
-                            },
-                            500: {
-                                description: "Erro no servidor"
-                            }
-                        }
-                    }
-                }}},
+      }
     },
-            components: {
-                schemas: {
-                    lista_Usuarios: {
-                        type: "object",
-                        properties: {
-                            id: { type: "integer", exemple: 1 },
-                            nome: { type: "string", exemple: "ricardo" },
-                            email: { type: "string", exemple: "ricardo@gmail.com" }
-                        }
-                    },
-                    Cadastro_Usuario: {
-                        type: "object",
-                        properties: {
-                            nome: { type: "string", example: "maria clara" },
-                            email: { type: "string", example: "Mariaclara@email.com" },
-                            senha: { type: "string", example: "maria123" }
-                        }},
-                        Atualizacao_Usuario: {
-                            type: "object",
-                            properties: {
-                                nome: { type: "string", example: "maria clara" },
-                                email: { type: "string", example: "Mariaclara@email.com" },
-                                senha: { type: "string", example: "maria123" }
-                            }},
-                            lista_Departamentos: {
-                                type: "object",
-                                properties: {
-                                    id: { type: "integer", exemple: 1 },
-                                    nome: { type: "string", exemple: "TI" },
-                                    descricao: { type: "string", exemple: "tecnologia da informação" }
-                                }
-                            },
-                             Cadastro_Departamento: {
-                        type: "object",
-                        properties: {
-                            nome: { type: "string", example: "tI" },
-                            descricao: { type: "string", example: "tecnologia da informação" }
-                        }},
-                        Atualizacao_Departamento: {
-                            type: "object",
-                            properties: {
-                            nome: { type: "string", example: "tI" },
-                            descricao: { type: "string", example: "tecnologia da informação" }
-                            }},
-                            lista_ordem_servico: {
-                                type: "object",
-                                properties: {
-                                    id: { type: "integer", exemple: 1 },
-                                    numero_ordem: { type: "integer", exemple: 1 },
-                                    titulo: { type: "string", exemple: "Troca de cabo de rede" },
-                                    descricao: { type: "string", exemple: "Ponto de rede da sala 203 esta sem conexão" },
-                                    prioridade: { type: "string", exemple: "media" },
-                                    status: { type: "string", exemple: "aberta" },
-                                    id_usuario: { type: "integer", exemple: "1" },
-                                    id_deprtamento: { type: "integer", exemple: "1" },
-                                }
-                            },
-                            Cadastro_Ordem: {
-                        type: "object",
-                        properties: {
-                            numero_ordem: { type: "number", example: "1001" },
-                            titulo: { type: "string", example: "trocar cabo de rede" },
-                            descricao: { type: "string", example: "ponto de rede da sala 203 está sem conexão" },
-                            prioridade: { type: "string", example: "media" },
-                            status: { type: "string", example: "aberta" },
-                            data: { type: "string", example: "2026-02-26" },
-                            id_usuario: { type: "number", example: "1" },
-                            id_deprtamento: { type: "number", example: "1" }
-                        }},
-                        Atualizacao_ordem: {
-                            type: "object",
-                            properties: {
-                           numero_ordem: { type: "number", example: "1001" },
-                            titulo: { type: "string", example: "trocar cabo de rede" },
-                            descricao: { type: "string", example: "ponto de rede da sala 203 está sem conexão" },
-                            prioridade: { type: "string", example: "media" },
-                            status: { type: "string", example: "aberta" },
-                            data: { type: "string", example: "2026-02-26" },
-                            id_usuario: { type: "number", example: "1" },
-                            id_deprtamento: { type: "number", example: "1" }
-                            }},
-    
-                        }
-                    }
+
+    "/usuarios/{id_usuario}": {
+      put: {
+        tags: ["Usuários"],
+        summary: "Atualizar usuário completo",
+        parameters: [
+          {
+            name: "id_usuario",
+            in: "path",
+            required: true,
+            schema: { type: "integer" }
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Atualizacao_Usuario" }
+            }
+          }
+        },
+        responses: {
+          200: { description: "Usuário atualizado com sucesso" },
+          404: { description: "Usuário não encontrado" }
+        }
+      },
+
+      patch: {
+        tags: ["Usuários"],
+        summary: "Atualizar usuário parcialmente",
+        parameters: [
+          {
+            name: "id_usuario",
+            in: "path",
+            required: true,
+            schema: { type: "integer" }
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Atualizacao_Parcial_Usuario" }
+            }
+          }
+        },
+        responses: {
+          200: { description: "Usuário atualizado com sucesso" },
+          400: { description: "Nenhum campo enviado" },
+          404: { description: "Usuário não encontrado" }
+        }
+      },
+
+      delete: {
+        tags: ["Usuários"],
+        summary: "Remover usuário",
+        parameters: [
+          {
+            name: "id_usuario",
+            in: "path",
+            required: true,
+            schema: { type: "integer" }
+          }
+        ],
+        responses: {
+          200: { description: "Usuário removido com sucesso" },
+          404: { description: "Usuário não encontrado" }
+        }
+      }
+    },
+
+    "/departamentos": {
+      get: {
+        tags: ["Departamentos"],
+        summary: "Listar departamentos",
+        responses: {
+          200: {
+            description: "Lista de departamentos",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: { $ref: "#/components/schemas/lista_Departamentos" }
                 }
-            
-        
+              }
+            }
+          }
+        }
+      }
+    },
 
+    "/departamentos/{id_departamento}": {
+      put: {
+        tags: ["Departamentos"],
+        summary: "Atualizar departamento",
+        parameters: [
+          {
+            name: "id_departamento",
+            in: "path",
+            required: true,
+            schema: { type: "integer" }
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Atualizacao_Departamento" }
+            }
+          }
+        },
+        responses: {
+          200: { description: "Departamento atualizado" },
+          404: { description: "Departamento não encontrado" }
+        }
+      },
 
+      patch: {
+        tags: ["Departamentos"],
+        summary: "Atualizar departamento parcialmente",
+        parameters: [
+          {
+            name: "id_departamento",
+            in: "path",
+            required: true,
+            schema: { type: "integer" }
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Atualizacao_Departamento" }
+            }
+          }
+        },
+        responses: {
+          200: { description: "Departamento atualizado com sucesso" },
+          400: { description: "Nenhum campo enviado" },
+          404: { description: "Departamento não encontrado" }
+        }
+      },
 
+      delete: {
+        tags: ["Departamentos"],
+        summary: "Remover departamento",
+        parameters: [
+          {
+            name: "id_departamento",
+            in: "path",
+            required: true,
+            schema: { type: "integer" }
+          }
+        ],
+        responses: {
+          200: { description: "Departamento removido com sucesso" },
+          404: { description: "Departamento não encontrado" }
+        }
+      }
+    },
 
-export default documentacao
+    "/ordem_servico": {
+      get: {
+        tags: ["Ordem de Serviço"],
+        summary: "Listar ordens de serviço",
+        responses: {
+          200: {
+            description: "Lista de ordens",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: { $ref: "#/components/schemas/lista_ordem_servico" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/ordem_servico/{id_ordem}": {
+      put: {
+        tags: ["Ordem de Serviço"],
+        summary: "Atualizar ordem de serviço",
+        parameters: [
+          {
+            name: "id_ordem",
+            in: "path",
+            required: true,
+            schema: { type: "integer" }
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Atualizacao_ordem" }
+            }
+          }
+        },
+        responses: {
+          200: { description: "Ordem atualizada" },
+          404: { description: "Ordem não encontrada" }
+        }
+      },
+
+      patch: {
+        tags: ["Ordem de Serviço"],
+        summary: "Atualizar ordem parcialmente",
+        parameters: [
+          {
+            name: "id_ordem",
+            in: "path",
+            required: true,
+            schema: { type: "integer" }
+          }
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Atualizacao_ordem" }
+            }
+          }
+        },
+        responses: {
+          200: { description: "Ordem atualizada com sucesso" },
+          400: { description: "Nenhum campo enviado" },
+          404: { description: "Ordem não encontrada" }
+        }
+      },
+
+      delete: {
+        tags: ["Ordem de Serviço"],
+        summary: "Remover ordem",
+        parameters: [
+          {
+            name: "id_ordem",
+            in: "path",
+            required: true,
+            schema: { type: "integer" }
+          }
+        ],
+        responses: {
+          200: { description: "Ordem removida com sucesso" },
+          404: { description: "Ordem não encontrada" }
+        }
+      }
+    }
+  },
+
+  components: {
+    schemas: {
+      lista_Usuarios: {
+        type: "object",
+        properties: {
+          id: { type: "integer", example: 1 },
+          nome: { type: "string", example: "Ricardo" },
+          email: { type: "string", example: "ricardo@gmail.com" }
+        }
+      },
+
+      Cadastro_Usuario: {
+        type: "object",
+        properties: {
+          nome: { type: "string", example: "Maria Clara" },
+          email: { type: "string", example: "maria@email.com" },
+          senha: { type: "string", example: "123456" }
+        }
+      },
+
+      Atualizacao_Usuario: {
+        type: "object",
+        properties: {
+          nome: { type: "string", example: "Maria Clara" },
+          email: { type: "string", example: "maria@email.com" },
+          senha: { type: "string", example: "123456" }
+        }
+      },
+
+      Atualizacao_Parcial_Usuario: {
+        type: "object",
+        properties: {
+          nome: { type: "string", example: "Maria Clara" },
+          email: { type: "string", example: "maria@email.com" },
+          senha: { type: "string", example: "123456" }
+        }
+      },
+
+      lista_Departamentos: {
+        type: "object",
+        properties: {
+          id: { type: "integer", example: 1 },
+          nome: { type: "string", example: "TI" },
+          descricao: { type: "string", example: "Tecnologia da Informação" }
+        }
+      },
+
+      Cadastro_Departamento: {
+        type: "object",
+        properties: {
+          nome: { type: "string", example: "TI" },
+          descricao: { type: "string", example: "Tecnologia da Informação" }
+        }
+      },
+
+      Atualizacao_Departamento: {
+        type: "object",
+        properties: {
+          nome: { type: "string", example: "TI" },
+          descricao: { type: "string", example: "Tecnologia da Informação" }
+        }
+      },
+
+      lista_ordem_servico: {
+        type: "object",
+        properties: {
+          id: { type: "integer", example: 1 },
+          numero_ordem: { type: "integer", example: 1001 },
+          titulo: { type: "string", example: "Trocar cabo de rede" },
+          descricao: { type: "string", example: "Sala sem conexão" },
+          prioridade: { type: "string", example: "media" },
+          status: { type: "string", example: "aberta" },
+          data: { type: "string", example: "2026-02-26" },
+          id_usuario: { type: "integer", example: 1 },
+          id_departamento: { type: "integer", example: 1 }
+        }
+      },
+
+      Cadastro_Ordem: {
+        type: "object",
+        properties: {
+          numero_ordem: { type: "integer", example: 1001 },
+          titulo: { type: "string", example: "Trocar cabo de rede" },
+          descricao: { type: "string", example: "Sala sem conexão" },
+          prioridade: { type: "string", example: "media" },
+          status: { type: "string", example: "aberta" },
+          data: { type: "string", example: "2026-02-26" },
+          id_usuario: { type: "integer", example: 1 },
+          id_departamento: { type: "integer", example: 1 }
+        }
+      },
+
+      Atualizacao_ordem: {
+        type: "object",
+        properties: {
+          numero_ordem: { type: "integer", example: 1001 },
+          titulo: { type: "string", example: "Trocar cabo de rede" },
+          descricao: { type: "string", example: "Sala sem conexão" },
+          prioridade: { type: "string", example: "media" },
+          status: { type: "string", example: "aberta" },
+          data: { type: "string", example: "2026-02-26" },
+          id_usuario: { type: "integer", example: 1 },
+          id_departamento: { type: "integer", example: 1 }
+        }
+      }
+    }
+  }
+};
+
+export default documentacao;
