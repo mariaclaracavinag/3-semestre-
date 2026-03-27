@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Aula13_Usuario from "./Aula13_Usuario"
+import { enderecoServidor } from '../utils';
 const Aula13_CRUD_Usuarios = () => {
     const [listaUsuarios, setListaUsuarios] = useState([])
     const [nome, setNome] = useState('')
@@ -15,7 +16,7 @@ const Aula13_CRUD_Usuarios = () => {
         try {
             //CREATE do nosso CRUD
             //Método POST para criar um novo produto
-            const resposta = await fetch('http://10.130.42.68:3001/usuarios', {
+            const resposta = await fetch('${enderecoServidor}/usuarios', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -37,7 +38,7 @@ const Aula13_CRUD_Usuarios = () => {
         try {
             //CREATE do nosso CRUD
             //Método POST para criar um novo produto
-            const resposta = await fetch(`http://10.130.42.68:3001/usuarios/${id_usuario}`, {
+            const resposta = await fetch(`${enderecoServidor}/usuarios/${id_usuario}`, {
                 method: 'DELETE',
 
         
@@ -63,7 +64,7 @@ const Aula13_CRUD_Usuarios = () => {
         try {
             //Read do nosso CRUD
             //Método GET para buscar os dados não precisa informar o método
-            const resposta = await fetch('http://10.130.42.68:3001/usuarios');
+            const resposta = await fetch(`${enderecoServidor}/usuarios`);
             const dados = await resposta.json();
             setListaUsuarios(dados);
         } catch (erro) {

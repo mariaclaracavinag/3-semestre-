@@ -5,7 +5,7 @@ function Detalhes (){
         <div>
             <h1> Mais informções </h1>
             {/*<a href='/'> </a> */}
-            <Link to= '/Contato'> Ventre em contato </Link> 
+            <Link to= '/Contato'> entre em contato </Link> 
         </div>
     )
 }

@@ -25,7 +25,8 @@ const Aula14 = () => {
               <h3>Entre aqui </h3>
               <button onClick={() =>Navigate("/inicio")}>inicio</button>
               <h3>Escolha um Filme </h3>
-              <button onClick={() =>Navigate("/filmes")}>filmes</button>
+              <button onClick={() =>Navigate("/filmes/Para todos os garotos que já amei")}>filme para todos os gortos que ja amei </button>
+              <button onClick={() =>Navigate("/filmes/A cinco passos de voce")}>filme a cinco passos de voce </button>
 
         </div>
     )

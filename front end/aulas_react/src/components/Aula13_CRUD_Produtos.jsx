@@ -1,6 +1,7 @@
 import { estilos } from "../style/Estilos"
 import { useState, useEffect } from "react"
 import Aula13_Produto from "./Aula13_Produto"
+import { enderecoServidor } from '../utils';
 
 const Aula13_CRUD_produtos = () => {
     const [listaProdutos, setListaProdutos] = useState([
@@ -59,11 +60,11 @@ const Aula13_CRUD_produtos = () => {
         };
        try {
 
-        let endpoint = 'http://10.130.42.68:3001/produtos'
+        let endpoint = `${enderecoServidor}/produtos`
         let metodo = 'POST'
 
         if(editando == true){
-            endpoint= `http://10.130.42.68:3001/produtos/${Id}`
+            endpoint= `${enderecoServidor}/produtos/${Id}`
             metodo = 'PUT'
         }
             //CREATE do nosso CRUD
@@ -90,7 +91,7 @@ const Aula13_CRUD_produtos = () => {
         try {
             //CREATE do nosso CRUD
             //Método POST para criar um novo produto
-            const resposta = await fetch(`http://10.130.42.68:3001/usuarios/${id_produto}`, {
+            const resposta = await fetch(`${enderecoServidor}/produtos/${Id}`, {
                 method: 'DELETE',
             });
             if (!resposta.ok) {
@@ -118,7 +119,7 @@ const Aula13_CRUD_produtos = () => {
     //função para buscar dados de uma API 
     async function buscarProdutos() {
         try {
-            const resposta = await fetch('http://10.130.42.68:3001/produtos')
+            const resposta = await fetch(`${enderecoServidor}/produtos`)
             const dados = await resposta.json()
             setListaProdutos(dados)
             console.log(dados)

@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom'
 function Inicio (){
     return(
         <div>
-            <h1> Entre em contato </h1>
+            <h1> Bem-vindo </h1>
             {/*<a href='/'> </a> */}
-            <Link to= '/inicio'> Volte ao inicio </Link> 
+            <Link to= '/Detalhes'> Veja mais detalhes </Link> 
         </div>
     )
 }
