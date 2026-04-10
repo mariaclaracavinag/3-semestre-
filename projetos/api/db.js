@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 const BD = new Pool ({
     user: 'postgres',
     host: 'localhost',
-    database: 'bd_final_control_3b', 
+    database: 'bd_finan_control_3b', 
    port: 5432, 
 password: 'admin'
 })
